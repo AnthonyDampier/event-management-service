@@ -6,7 +6,7 @@ import { clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
-
+    console.log('Webhook received');
     const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
 
     if (!WEBHOOK_SECRET) {
@@ -21,7 +21,7 @@ export async function POST(req: Request) {
 
     // If there are no headers, error out
     if (!svix_id || !svix_timestamp || !svix_signature) {
-        return new Response('Error occured -- no svix headers', {
+        return new Response('Error occurred -- no svix headers', {
             status: 400
         })
     }
@@ -54,7 +54,6 @@ export async function POST(req: Request) {
     const eventType = evt.type;
 
     console.log('Webhook received:', eventType, id);
-
     if (eventType === 'user.created') {
         const { id, email_addresses, image_url, first_name, last_name, username } = evt.data;
 
