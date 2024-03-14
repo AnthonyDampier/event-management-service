@@ -1,8 +1,11 @@
 import EventForm from '@/components/shared/EventForm'
+import { getEventById } from '@/lib/actions/event.actions';
+import { SearchParamProps } from '@/types';
 import { auth } from '@clerk/nextjs';
 import React from 'react'
 
-const UpdateEvent = () => {
+const UpdateEvent = async ({ params: { id }, searchParams }: SearchParamProps) => {
+    const event = await getEventById(id);
 
     // gets auth user information from clerk
     const { sessionClaims } = auth();
@@ -16,7 +19,7 @@ const UpdateEvent = () => {
             </h3>
         </section>
         <div className='wrapper my-8'>
-            <EventForm userId={userId} type="Update" />
+            <EventForm event={event} eventId={event._id} userId={userId} type="Update" />
         </div>
         </>
     )
