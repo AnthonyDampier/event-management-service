@@ -148,3 +148,24 @@ export async function getOrdersByUser({ userId, limit = 3, page }: GetOrdersByUs
         handleError(error)
     }
 }
+
+export async function deleteOrder(orderId: string) {
+    try {
+        await connectToDatabase()
+
+        const deletedOrder = await Order.findByIdAndDelete(orderId)
+        if (deletedOrder) return JSON.parse(JSON.stringify(deletedOrder))
+    } catch (error) {
+        handleError(error)
+    }
+}
+
+export async function deleteAllEventOrders(eventId: string) {
+    try {
+        await connectToDatabase()
+        const deletedOrders = await Order.deleteMany({ event: eventId })
+        if (deletedOrders) return JSON.parse(JSON.stringify(deletedOrders))
+    } catch (error) {
+        handleError(error)
+    }
+}

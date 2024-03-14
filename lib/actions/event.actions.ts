@@ -16,6 +16,7 @@ import {
     GetEventsByUserParams,
     GetRelatedEventsByCategoryParams,
 } from '@/types'
+import { deleteAllEventOrders, getOrdersByEvent } from './order.actions'
 
 const getCategoryByName = async (name: string) => {
     return Category.findOne({ name: { $regex: name, $options: 'i' } })
@@ -89,6 +90,10 @@ export async function deleteEvent({ eventId, path }: DeleteEventParams) {
 
         const deletedEvent = await Event.findByIdAndDelete(eventId)
         if (deletedEvent) revalidatePath(path)
+
+        // get all order of event
+        deleteAllEventOrders(eventId);
+
     } catch (error) {
         handleError(error)
     }

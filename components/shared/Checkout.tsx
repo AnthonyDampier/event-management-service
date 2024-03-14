@@ -16,7 +16,6 @@ const stripePromise = loadStripe(
 
 const Checkout = ({ event, userId }: CheckoutProps) => {
     const onCheckout = async () => {
-        console.log('CHECKOUT');
         const order = {
             eventId: event._id,
             eventTitle: event.title,
